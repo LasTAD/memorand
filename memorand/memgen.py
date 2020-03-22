@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-import MemeMan as mg
+from memorand import MemeMan as mg
 
 
 def main():

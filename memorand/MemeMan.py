@@ -9,7 +9,7 @@ def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except Exception:
-        base_path = os.path.abspath("..")
+        base_path = os.path.abspath("../memorand")
     return os.path.join(base_path, relative_path)
 
 
@@ -41,10 +41,10 @@ def get_thumbnail(img):
 def font_change(txt: str, img: Image, div: float):
     fontsize = 1
     img_fraction = 0.9
-    font = ImageFont.truetype(resource_path("../Resources/Lobster.ttf"), fontsize)
+    font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
     while font.getsize(txt)[0] / div < img_fraction * img.size[0]:
         fontsize += 1
-        font = ImageFont.truetype(resource_path("../Resources/Lobster.ttf"), fontsize)
+        font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
     fontsize -= 1
     return fontsize
 
@@ -70,7 +70,7 @@ def put_text_pil(img: Image, txt: str):
     if fontsize > maxfontsize:
         fontsize = maxfontsize
     print('final font size: ', fontsize)
-    font = ImageFont.truetype(resource_path("../Resources/Lobster.ttf"), fontsize)
+    font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
     draw = ImageDraw.Draw(img)
     w, h = draw.textsize(txt, font=font)
 

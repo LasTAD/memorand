@@ -8,11 +8,11 @@ access_token = '5ef7e83689fe1cba661aa16bb3c9d31643ad5351d98490adee347242cd148fd2
 # Авторизация
 vk_session = vk_api.VkApi(app_id=7382739, token=access_token)
 vk_session._auth_token(access_token)
-upload = vk_api.VkUpload(vk_session)  # Для загрузки изображений
 
-def load_meme(filename, capture, group_id):
+
+def load_meme(file, capture, group_id):
     upload = vk_api.VkUpload(vk_session)  # Для загрузки изображений
-    photo_list = upload.photo_wall(filename)
+    photo_list = upload.photo_wall(file)
     attachment = ','.join('photo{owner_id}_{id}'.format(**item) for item in photo_list)
 
     # Добавление записи на стену

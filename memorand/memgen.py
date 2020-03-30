@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from memorand import MemeMan as mg, vk
+from memorand import MemeMan as mg, vk, db_conn as db
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
 
     sg.theme('DarkBlue1')
     layout = [
-        [sg.Button('Create meme'), sg.Button('Save meme'), sg.Button('Exit')],
+        [sg.Button('Create meme'), sg.Button('Post meme'), sg.Button('Exit')],
         [image_elem]
     ]
     window = sg.Window('memgen v0.1', layout, resizable=True)
@@ -22,10 +22,10 @@ def main():
             image_elem.update(data=mg.get_thumbnail(meme))
             window.Refresh()
 
-        if event == 'Save meme':
+        if event == 'Post meme':
             # mg.save_meme(meme)
-            vk.load_meme(mg.prep_for_vk(meme), 'New era is coming!', -31927652)
-            print('Meme saved' + '\n')
+            vk.load_meme(mg.prep_for_vk(meme), db.get_phrase(), -31927652)
+            print('Meme posted' + '\n')
     pass
 
 

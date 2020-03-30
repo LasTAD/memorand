@@ -110,6 +110,6 @@ def save_meme(img):
 
 def prep_for_vk(img):
     b = io.BytesIO()
-    img.save(b, "JPEG")
+    img.save(b, "PNG")
     b.seek(0)
     return b

@@ -6,7 +6,7 @@ conn = psycopg2.connect(dbname='postmemes', user='Nikolai',
 
 def get_phrase():
     cursor = conn.cursor()
-    cursor.execute('select phrase from post_phrases where pal = false order by random();')
+    cursor.execute('select phrase from post_phrases order by random() --where pal = false order by random();')
     phrase = cursor.fetchone()[0]
     phrase = phrase.strip()
     print(phrase)

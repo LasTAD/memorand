@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import vk_api
 
-# group_id = 31927652
+# group_id = 31927652, 193569169
 # user_id = 153219235
 filename = '../newmeme.png'
 access_token = '5ef7e83689fe1cba661aa16bb3c9d31643ad5351d98490adee347242cd148fd2912f63d86a564a3518ad9'

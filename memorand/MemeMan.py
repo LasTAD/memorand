@@ -104,4 +104,12 @@ def create_meme():
 
 
 def save_meme(img):
-    img.save(os.path.abspath(os.curdir) + "/newmeme.png")
+    filename = os.path.abspath(os.curdir) + "/newmeme.png"
+    img.save(filename)
+    return filename
+
+def prep_for_vk(img):
+    b = io.BytesIO()
+    img.save(b, "JPEG")
+    b.seek(0)
+    return b

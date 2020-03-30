@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from memorand import MemeMan as mg
+from memorand import MemeMan as mg, vk
 
 
 def main():
@@ -23,7 +23,8 @@ def main():
             window.Refresh()
 
         if event == 'Save meme':
-            mg.save_meme(meme)
+            # mg.save_meme(meme)
+            vk.load_meme(mg.prep_for_vk(meme), 'New era is coming!', -31927652)
             print('Meme saved' + '\n')
     pass
 

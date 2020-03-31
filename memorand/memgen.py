@@ -11,7 +11,7 @@ def main():
         [sg.Button('Create meme'), sg.Button('Post meme'), sg.Button('Exit')],
         [image_elem]
     ]
-    window = sg.Window('memgen v0.1', layout, resizable=True)
+    window = sg.Window('Memorand', layout, resizable=True, icon='Resources/278.png')
     while True:
         event, values = window.read()
         if event in (None, 'Exit'):

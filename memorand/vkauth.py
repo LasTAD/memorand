@@ -1,17 +1,17 @@
 import requests
-import getpass
 from html.parser import HTMLParser
 import PySimpleGUI as sg
+
 
 class FormParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
-        self.url         = None
-        self.denial_url  = None
-        self.params      = {}
-        self.method      = 'GET'
-        self.in_form     = False
-        self.in_denial   = False
+        self.url = None
+        self.denial_url = None
+        self.params = {}
+        self.method = 'GET'
+        self.in_form = False
+        self.in_denial = False
         self.form_parsed = False
 
     def handle_starttag(self, tag, attrs):
@@ -55,7 +55,8 @@ class FormParser(HTMLParser):
 
 class VKAuth(object):
 
-    def __init__(self, permissions, app_id, api_v, email=None, pswd=None, two_factor_auth=False, security_code=None, auto_access=True):
+    def __init__(self, permissions, app_id, api_v, email=None, pswd=None, two_factor_auth=False, security_code=None,
+                 auto_access=True):
         """
         @args:
             permissions: list of Strings with permissions to get from API
@@ -63,20 +64,20 @@ class VKAuth(object):
             api_v: (String) vk API version
         """
 
-        self.session        = requests.Session()
-        self.form_parser    = FormParser()
-        self._user_id       = None
-        self._access_token  = None
-        self.response       = None
+        self.session = requests.Session()
+        self.form_parser = FormParser()
+        self._user_id = None
+        self._access_token = None
+        self.response = None
 
-        self.permissions    = permissions
-        self.api_v          = api_v
-        self.app_id         = app_id
-        self.two_factor_auth= two_factor_auth
-        self.security_code  = security_code
-        self.email          = email
-        self.pswd           = pswd
-        self.auto_access    = auto_access
+        self.permissions = permissions
+        self.api_v = api_v
+        self.app_id = app_id
+        self.two_factor_auth = two_factor_auth
+        self.security_code = security_code
+        self.email = email
+        self.pswd = pswd
+        self.auto_access = auto_access
 
         if security_code != None and two_factor_auth == False:
             raise RuntimeError('Security code provided for non-two-factor authorization')
@@ -95,11 +96,12 @@ class VKAuth(object):
         api_version = self.api_v
 
         auth_url_template = '{0}?client_id={1}&scope={2}&redirect_uri={3}&display={4}&v={5}&response_type=token'
-        auth_url = auth_url_template.format(api_auth_url, app_id, ','.join(permissions), redirect_uri, display, api_version)
+        auth_url = auth_url_template.format(api_auth_url, app_id, ','.join(permissions), redirect_uri, display,
+                                            api_version)
 
         self.response = self.session.get(auth_url)
 
-        #look for <form> element in response html and parse it
+        # look for <form> element in response html and parse it
         if not self._parse_form():
             raise RuntimeError('No <form> element found. Please, check url address')
         else:
@@ -207,8 +209,8 @@ class VKAuth(object):
         sec_code = ''
         prefix = 'https://m.vk.com'
         layout = [[sg.Text('Two-factor authentication')],
-                   [sg.InputText(sec_code)],
-                   [sg.Button('Enter')]]
+                  [sg.InputText(sec_code)],
+                  [sg.Button('Enter')]]
         win = sg.Window('Two-factor authentication', layout)
         if prefix not in self.form_parser.url:
             self.form_parser.url = prefix + self.form_parser.url
@@ -233,14 +235,14 @@ class VKAuth(object):
         if 'submit_allow_access' in parser.params and 'grant_access' in parser.url:
             if not self.auto_access:
                 answer = ''
-                msg =   'Application needs access to the following details in your profile:\n' + \
-                        str(self.permissions) + '\n' + \
-                        'Allow it to use them? (yes or no)'
+                msg = 'Application needs access to the following details in your profile:\n' + \
+                      str(self.permissions) + '\n' + \
+                      'Allow it to use them? (yes or no)'
 
                 attempts = 5
                 while answer not in ['yes', 'no'] and attempts > 0:
                     answer = input(msg).lower().strip()
-                    attempts-=1
+                    attempts -= 1
 
                 if answer == 'no' or attempts == 0:
                     self.form_parser.url = self.form_parser.denial_url

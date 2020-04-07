@@ -1,3 +1,3 @@
 NAME = 'memorand'
-__all__ = ['memgen', 'MemeMan', 'k_mean', 'db_conn']
+__all__ = ['memgen', 'MemeMan', 'k_mean']
 __version__ = '1.1'

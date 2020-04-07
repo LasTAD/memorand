@@ -1,7 +1,7 @@
 import psycopg2
 
-conn = psycopg2.connect(dbname='postmemes', user='Nikolai',
-                        password='qazqazqa', host='178.130.37.129')
+conn = psycopg2.connect(dbname='postmemes', user='memgen',
+                        password='readonly', host='178.130.37.129')
 
 
 def get_phrase():

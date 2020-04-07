@@ -41,10 +41,10 @@ def get_thumbnail(img):
 def font_change(txt: str, img: Image, div: float):
     fontsize = 1
     img_fraction = 0.9
-    font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
+    font = ImageFont.truetype('memorand/Resources/Lobster.ttf', fontsize)
     while font.getsize(txt)[0] / div < img_fraction * img.size[0]:
         fontsize += 1
-        font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
+        font = ImageFont.truetype('memorand/Resources/Lobster.ttf', fontsize)
     fontsize -= 1
     return fontsize
 
@@ -70,7 +70,7 @@ def put_text_pil(img: Image, txt: str):
     if fontsize > maxfontsize:
         fontsize = maxfontsize
     print('final font size: ', fontsize)
-    font = ImageFont.truetype('Resources/Lobster.ttf', fontsize)
+    font = ImageFont.truetype('memorand/Resources/Lobster.ttf', fontsize)
     draw = ImageDraw.Draw(img)
     w, h = draw.textsize(txt, font=font)
 
@@ -98,7 +98,7 @@ def put_text_pil(img: Image, txt: str):
 
 
 def create_meme():
-    img = Image.open(resource_path(db.get_img()))
+    img = Image.open(resource_path('memorand/' + db.get_img()))
     img = put_text_pil(img, db.get_phrase())
     return img
 

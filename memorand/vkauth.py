@@ -209,7 +209,7 @@ class VKAuth(object):
         sec_code = ''
         prefix = 'https://m.vk.com'
         layout = [[sg.Text('Two-factor authentication')],
-                  [sg.InputText(sec_code)],
+                  [sg.InputText(sec_code, size=(6,1))],
                   [sg.Button('Enter')]]
         win = sg.Window('Two-factor authentication', layout)
         if prefix not in self.form_parser.url:

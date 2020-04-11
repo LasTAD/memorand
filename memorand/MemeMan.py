@@ -1,4 +1,4 @@
-from PIL import ImageFont, ImageDraw, Image
+from PIL import ImageFont, ImageDraw, Image, ImageOps
 import io
 from memorand import k_mean, db_conn as db
 import os
@@ -32,44 +32,29 @@ def scale_image(img,
 
 
 def get_thumbnail(img):
-    im = img
+    im = image_scale(img, 500)
     im_bytes = io.BytesIO()
     im.save(im_bytes, format="GIF")
     return im_bytes.getvalue()
 
 
-def font_change(txt: str, img: Image, div: float):
+def font_change(txt: str, w_i, div: float, font_name):
     fontsize = 1
     img_fraction = 0.9
-    font = ImageFont.truetype(os.path.join('memorand', 'Resources', 'Lobster.ttf'), fontsize)
-    while font.getsize(txt)[0] / div < img_fraction * img.size[0]:
+    font = ImageFont.truetype(font_name, fontsize)
+    while font.getsize(txt)[0] / div < img_fraction * w_i:
         fontsize += 1
-        font = ImageFont.truetype(os.path.join('memorand', 'Resources', 'Lobster.ttf'), fontsize)
+        font = ImageFont.truetype(font_name, fontsize)
     fontsize -= 1
     return fontsize
 
 
-def put_text_pil(img: Image, txt: str):
-    maxfontsize = 50
+def make_post_meme(img: Image, txt: str):
+    font_name = os.path.join('memorand', 'Resources', 'Lobster.ttf')
+    img = image_scale(img, 500)
     w_i, h_i = img.size
-    if w_i > 500:
-        scale_image(img, width=500)
-    if h_i > 500:
-        scale_image(img, height=500)
-    w_i, h_i = img.size
-    fontsize = font_change(txt, img, 1.0)
-    if fontsize <= 18:
-        txt_len = len(txt)
-        mid_space = txt.find(' ', len(txt) // 2)
-        txt_end = txt[mid_space + 1:]
-        txt_end = txt_end.center(mid_space)
-        txt_start = txt[:mid_space]
-        txt = txt_start + "\n" + txt_end
-        txt = txt.strip()
-        fontsize = font_change(txt, img, txt_len / len(txt_start))
-    if fontsize > maxfontsize:
-        fontsize = maxfontsize
-    print('final font size: ', fontsize)
+    put_font = put_text(img, txt, font_name)
+    fontsize, txt = put_font
     font = ImageFont.truetype(os.path.join('memorand', 'Resources', 'Lobster.ttf'), fontsize)
     draw = ImageDraw.Draw(img)
     w, h = draw.textsize(txt, font=font)
@@ -77,7 +62,7 @@ def put_text_pil(img: Image, txt: str):
     y_pos = h_i - h - h_i * 0.05
     x_pos = (w_i - w) / 2
     draw = ImageDraw.Draw(img)
-    text_size = (x_pos, y_pos, x_pos+w, y_pos + h)
+    text_size = (x_pos, y_pos, x_pos + w, y_pos + h)
     print(text_size)
     font_col = k_mean.pick_color(img, text_size)
 
@@ -97,16 +82,79 @@ def put_text_pil(img: Image, txt: str):
     return img
 
 
-def create_meme():
-    img = Image.open(os.path.join('memorand', 'Resources', db.get_img()))
-    img = put_text_pil(img, db.get_phrase())
+# todo
+def make_demot(img, txt):
+    border = 0.1
+    img = image_scale(img, 500)
+    w_i, h_i = img.size
+    font_name = os.path.join('memorand', 'Resources', 'Times New Roman.ttf')
+    put_font = put_text(img, txt, font_name)
+    fontsize, txt = put_font
+    font = ImageFont.truetype(font_name, fontsize)
+    draw = ImageDraw.Draw(img)
+    w, h = draw.textsize(txt, font=font)
+
+    bimg = ImageOps.expand(img, border=(int(w_i * 0.01)), fill='black')
+    bimg = ImageOps.expand(bimg, border=1, fill='white')
+    bimg = ImageOps.expand(bimg, border=(int(w_i * border),
+                                         int(w_i * border),
+                                         int(w_i * border),
+                                         int(h + 30) if w_i * border < h + 30 else int(w_i * border)),
+                           fill='black')
+    img = bimg
+    w_i, h_i = img.size
+    y_pos = h_i - h - 20
+    x_pos = (w_i - w) / 2
+    draw = ImageDraw.Draw(img)
+    text_size = (x_pos, y_pos, x_pos + w, y_pos + h)
+    print(text_size)
+    draw.text((x_pos, y_pos), txt, fill='white', font=font)
     return img
 
 
-def save_meme(img):
-    filename = os.path.abspath(os.curdir) + "/newmeme.png"
+def image_scale(img, size):
+    w_i, h_i = img.size
+    if w_i > size:
+        img = scale_image(img, width=500)
+    if h_i > size:
+        img = scale_image(img, height=500)
+    return img
+
+
+def put_text(img, txt, font_name):
+    maxfontsize = 50
+    w_i, h_i = img.size
+    fontsize = font_change(txt, w_i, 1.0, font_name)
+    if fontsize <= 18:
+        txt_len = len(txt)
+        mid_space = txt.find(' ', len(txt) // 2)
+        txt_end = txt[mid_space + 1:]
+        txt_end = txt_end.center(mid_space)
+        txt_start = txt[:mid_space]
+        txt = txt_start + "\n" + txt_end
+        txt = txt.strip()
+        fontsize = font_change(txt, w_i, txt_len / len(txt_start), font_name)
+    if fontsize > maxfontsize:
+        fontsize = maxfontsize
+    return fontsize, txt
+
+
+def create_post_meme():
+    img = Image.open(os.path.join('memorand', 'Resources', db.get_img()))
+    img = make_post_meme(img, db.get_phrase())
+    return img
+
+
+def create_demot():
+    img = Image.open(os.path.join('memorand', 'Resources', db.get_img()))
+    img = make_demot(img, db.get_phrase())
+    return img
+
+
+def save_meme(img, filename):
     img.save(filename)
     return filename
+
 
 def prep_for_vk(img):
     b = io.BytesIO()

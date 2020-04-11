@@ -5,12 +5,18 @@ from memorand import MemeMan as mg, vk, db_conn as db
 def main():
     global group_id
     group_name = ''
-    meme = mg.create_meme()
+    meme = mg.create_post_meme()
     image_elem = sg.Image(data=mg.get_thumbnail(meme), key="image")
     sg.theme('DarkBlue1')
     layout = [
-        [sg.Button('Create meme'), sg.Button('Post meme'), sg.Button('Exit'), sg.Button('Settings'), sg.Button('Authorization')],
-        [image_elem]
+        [sg.Button('Create meme'),
+         sg.Button('Post meme'),
+         sg.Button('Save meme'),
+         sg.Button('Settings'),
+         sg.Button('Authorization')],
+        [sg.Text('Choose meme type'), sg.Radio('Post meme', 'MEME', True, key='post'), sg.Radio('Demot', 'MEME', key='demot')],
+        [image_elem],
+        [sg.Button('Exit')]
     ]
     window = sg.Window('Memorand', layout, resizable=True, icon='Resources/278.png')
     win2_active = False
@@ -21,9 +27,15 @@ def main():
             print('Goodbye')
             break
         if event == 'Create meme':
-            meme = mg.create_meme()
+            if values['post']:
+                meme = mg.create_post_meme()
+            if values['demot']:
+                meme = mg.create_demot()
             image_elem.update(data=mg.get_thumbnail(meme))
             window.Refresh()
+        if event == 'Save meme':
+            filename = sg.popup_get_file('Save meme', save_as=True, file_types=(('PNG', '*.png'),))
+            mg.save_meme(meme, filename)
         if event == 'Post meme':
             vk.load_meme(mg.prep_for_vk(meme), db.get_phrase(), int(group_id)*(-1), session)
             print('Meme posted' + '\n')

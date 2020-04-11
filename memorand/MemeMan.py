@@ -139,16 +139,46 @@ def put_text(img, txt, font_name):
     return fontsize, txt
 
 
+def make_panel_meme(img1, img2):
+    img1 = sharp_scale(img1, 500)
+    w_1, h_1 = img1.size
+    img2 = sharp_scale(img2, 500)
+    w_2, h_2 = img2.size
+    print(w_1, h_1, w_2, h_2)
+    img = Image.new('RGB', (w_1, h_1 + h_2))
+    img.paste(img1, (0, 0))
+    img.paste(img2, (0, h_1))
+    return img
+
+def sharp_scale(img, width = None, height = None):
+    w, h = img.size
+    if width:
+        ratio = (width / float(w))
+        height = int((float(h) * float(ratio)))
+        img = img.resize((width, height), Image.ANTIALIAS)
+    elif height:
+        ratio = (height / float(h))
+        width = int((float(w) * float(ratio)))
+        img = img.resize((width, height), Image.ANTIALIAS)
+    return img
+
+
+def create_panel():
+    img1 = create_post_meme()
+    img2 = create_post_meme()
+    return make_panel_meme(img1, img2)
+
+
+
 def create_post_meme():
     img = Image.open(os.path.join('memorand', 'Resources', db.get_img()))
-    img = make_post_meme(img, db.get_phrase())
-    return img
+    return make_post_meme(img, db.get_phrase())
+
 
 
 def create_demot():
     img = Image.open(os.path.join('memorand', 'Resources', db.get_img()))
-    img = make_demot(img, db.get_phrase())
-    return img
+    return make_demot(img, db.get_phrase())
 
 
 def save_meme(img, filename):

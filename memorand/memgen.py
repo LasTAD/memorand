@@ -13,8 +13,13 @@ def main():
          sg.Button('Post meme'),
          sg.Button('Save meme'),
          sg.Button('Settings'),
-         sg.Button('Authorization')],
-        [sg.Text('Choose meme type'), sg.Radio('Post meme', 'MEME', True, key='post'), sg.Radio('Demot', 'MEME', key='demot')],
+         sg.Button('Authorization')
+         ],
+        [sg.Text('Choose meme type'),
+         sg.Radio('Post meme', 'MEME', True, key='post'),
+         sg.Radio('Demot', 'MEME', key='demot'),
+         sg.Radio('Panel', 'MEME', key='panel')
+         ],
         [image_elem],
         [sg.Button('Exit')]
     ]
@@ -31,6 +36,8 @@ def main():
                 meme = mg.create_post_meme()
             if values['demot']:
                 meme = mg.create_demot()
+            if values['panel']:
+                meme = mg.create_panel()
             image_elem.update(data=mg.get_thumbnail(meme))
             window.Refresh()
         if event == 'Save meme':

@@ -75,7 +75,6 @@ def main():
             while True:
                 ev3, vals3 = win3.Read()
                 if ev3 == 'Enter':
-                    print(vals3[0],' ', vals3[1])
                     session = vk.vk_auth(vals3[0], vals3[1])
                     win3.close()
                     win3_active = False

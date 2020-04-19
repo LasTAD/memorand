@@ -64,7 +64,7 @@ def make_post_meme(img: Image, txt: str):
     draw = ImageDraw.Draw(img)
     text_size = (x_pos, y_pos, x_pos + w, y_pos + h)
     print(text_size)
-    font_col = k_mean.pick_color(img, text_size)
+    # font_col = k_mean.pick_color(img, text_size)
 
     offset = 2
     shadowColor = 'black'
@@ -78,7 +78,7 @@ def make_post_meme(img: Image, txt: str):
         draw.text((x_pos + off, y_pos + off), txt, font=font, fill=shadowColor)
         draw.text((x_pos - off, y_pos - off), txt, font=font, fill=shadowColor)
         draw.text((x_pos + off, y_pos - off), txt, font=font, fill=shadowColor)
-    draw.text((x_pos, y_pos), txt, fill=font_col, font=font)
+    draw.text((x_pos, y_pos), txt, fill='white', font=font)
     return img
 
 

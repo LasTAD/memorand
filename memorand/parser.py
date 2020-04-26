@@ -48,7 +48,9 @@ def etl_phrases(reload=None):
         pal = clean_adul_lng(phrase[1])
         cur.execute('insert into post_phrases(phrase, pal, hk) values (?, ?, ?);', (phrase[1], pal, phrase[0]))
         print(datetime.now().strftime("%d-%m-%Y %H:%M:%S") + ': Загружен ' + phrase[0])
-    cur.execute("delete from post_phrases where phrase like '%%www.%%'")
+    cur.execute("delete from post_phrases where phrase like '%www.%'")
+    cur.execute("delete from post_phrases where phrase like '%[c%%'")
+    cur.execute("delete from post_phrases where phrase like '%[i%'")
     conn.commit()
     print(datetime.now().strftime("%d-%m-%Y %H:%M:%S") + ': Загрузка окончена!')
 

@@ -42,7 +42,8 @@ def main():
             window.Refresh()
         if event == 'Save meme':
             filename = sg.popup_get_file('Save meme', save_as=True, file_types=(('PNG', '*.png'),))
-            mg.save_meme(meme, filename)
+            if filename:
+                mg.save_meme(meme, filename)
         if event == 'Post meme':
             vk.load_meme(mg.prep_for_vk(meme), db.get_phrase(), int(group_id)*(-1), session)
             print('Meme posted' + '\n')

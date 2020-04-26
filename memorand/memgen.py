@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from memorand import MemeMan as mg, vk, db_conn as db
+from memorand import MemeMan as mg, vk, db_conn as db, util
 
 
 def main():
@@ -51,6 +51,7 @@ def main():
             window.Hide()
             layout2 = [[sg.Text('Settings')],
                        [sg.Text('Input your group link-name: '), sg.InputText(group_name)],
+                       [sg.Button('Parser Util')],
                        [sg.Button('Exit'), sg.Button('Save')]]
             win2 = sg.Window('Settings', layout2)
             while True:
@@ -58,6 +59,10 @@ def main():
                 if ev2 == 'Save':
                     group_name = vals2[0]
                     group_id = vk.get_admin_group(group_name, session)
+                if ev2 == 'Parser Util':
+                    win2.Hide()
+                    util.main()
+                    win2.UnHide()
                 if ev2 is None or ev2 == 'Exit':
                     win2.close()
                     win2_active = False

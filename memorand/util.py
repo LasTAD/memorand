@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
-from memorand import vk
-from phrasegetter import parser as p
+from memorand import vk, parser as p
 
 
 def main():

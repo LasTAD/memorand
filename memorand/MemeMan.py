@@ -5,14 +5,6 @@ import os
 import sys
 
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath("../memorand")
-    return os.path.join(base_path, relative_path)
-
-
 def scale_image(img,
                 width=None,
                 height=None
@@ -50,12 +42,12 @@ def font_change(txt: str, w_i, div: float, font_name):
 
 
 def make_post_meme(img: Image, txt: str):
-    font_name = os.path.join('memorand', 'Resources', 'Lobster.ttf')
+    font_name = os.path.join('memorand', 'Resources', 'Fonts','Lobster.ttf')
     img = image_scale(img, 500)
     w_i, h_i = img.size
     put_font = put_text(img, txt, font_name)
     fontsize, txt = put_font
-    font = ImageFont.truetype(os.path.join('memorand', 'Resources', 'Lobster.ttf'), fontsize)
+    font = ImageFont.truetype(os.path.join('memorand', 'Resources', 'Fonts','Lobster.ttf'), fontsize)
     draw = ImageDraw.Draw(img)
     w, h = draw.textsize(txt, font=font)
 
@@ -87,7 +79,7 @@ def make_demot(img, txt):
     border = 0.1
     img = image_scale(img, 500)
     w_i, h_i = img.size
-    font_name = os.path.join('memorand', 'Resources', 'Times New Roman.ttf')
+    font_name = os.path.join('memorand', 'Resources', 'Fonts', 'Times New Roman.ttf')
     put_font = put_text(img, txt, font_name)
     fontsize, txt = put_font
     font = ImageFont.truetype(font_name, fontsize)

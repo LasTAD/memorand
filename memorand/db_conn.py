@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-conn = sqlite3.connect(os.path.join('memorand', 'Resources', 'postdb.db'))
+conn = sqlite3.connect(os.path.join('memorand', 'Resources', 'DB','postdb.db'))
 
 def get_phrase():
     cursor = conn.cursor()

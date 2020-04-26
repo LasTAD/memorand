@@ -1,5 +1,3 @@
-import os
-import shutil as sh
 import PySimpleGUI as sg
 from memorand import vk, parser as p
 
@@ -48,7 +46,3 @@ def main():
             p.etl_phrases()
         if event == 'Register':
             p.reg_new_res(values[1])
-
-
-if __name__ == '__main__':
-    main()

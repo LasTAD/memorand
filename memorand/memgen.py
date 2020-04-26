@@ -29,6 +29,7 @@ def main():
     while True:
         event, values = window.read()
         if event in (None, 'Exit'):
+            db.conn.close()
             print('Goodbye')
             break
         if event == 'Create meme':

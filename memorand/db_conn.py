@@ -1,14 +1,10 @@
-import psycopg2
+import sqlite3
+import os
 
-conn_anon = psycopg2.connect(dbname='postmemes', user='memgen',
-                        password='readonly', host='178.130.37.129')
-
-conn = psycopg2.connect(dbname='postmemes', user='Nikolai',
-                        password='qazqazqa', host='178.130.37.129')
-
+conn = sqlite3.connect(os.path.join(os.path.abspath('.'), 'Resources', 'postdb.db'))
 
 def get_phrase():
-    cursor = conn_anon.cursor()
+    cursor = conn.cursor()
     cursor.execute('select phrase from post_phrases order by random() --where pal = false order by random();')
     phrase = cursor.fetchone()[0]
     phrase = phrase.strip()
@@ -17,7 +13,7 @@ def get_phrase():
 
 
 def get_img():
-    cursor = conn_anon.cursor()
+    cursor = conn.cursor()
     cursor.execute("select img_path from img_src order by random()")
     img_path = cursor.fetchone()[0]
     print(img_path)

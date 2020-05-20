@@ -46,3 +46,4 @@ def main():
             p.etl_phrases()
         if event == 'Register':
             p.reg_new_res(values[1])
+    pass

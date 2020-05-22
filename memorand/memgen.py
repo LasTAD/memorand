@@ -77,7 +77,6 @@ def main():
         if event == 'Authorization':
             session = authorization(window)
             if session == 0:
-                auth = False
                 continue
             group_id = admin_group_window(window, session)
             auth = True
@@ -129,8 +128,9 @@ def authorization(window):
         events, values = win.Read()
         if events == 'Enter':
             session = vk.vk_auth(values[0], values[1])
-            auth = True
-            window.FindElement('Make post').Update(visible=auth)
+            if session != 0:
+                auth = True
+                window.FindElement('Make post').Update(visible=auth)
             win.close()
             window.UnHide()
             break

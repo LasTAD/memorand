@@ -71,7 +71,7 @@ def vk_auth(email=None, pswd=None):
 
     try:
         vk_session.auth()
-        sg.popup_ok('Authorization succesful!', auto_close=True)
+        sg.popup_ok('Authorization succesful!')
         return vk_session
     except vk_api.AuthError as error_msg:
         sg.popup_error(error_msg)

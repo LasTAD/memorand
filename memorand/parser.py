@@ -12,9 +12,9 @@ def get_post_text(session, group_name):
     print_msg('Выгрузка постов из группы ' + group_name)
     # print(datetime.now().strftime("%d-%m-%Y %H:%M:%S") + ': 'Выгрузка постов из группы ' + group_name)
     tools = vk_api.VkTools(session)
-    group_id = vk.get_admin_group(group_name, session)
+    group_id = vk.get_group_by_link(session, group_name)
     print_msg('Начало загрузки в целевую таблицу')
-    posts = tools.get_all_iter('wall.get', 100, {'owner_id': int(group_id) * -1, 'marked_as_ads': 0})
+    posts = tools.get_all_iter('wall.get', 100, {'owner_id': group_id, 'marked_as_ads': 0})
     conn = db.conn
     cursor = conn.cursor()
     print_msg('Очистка промежуточных таблиц')
@@ -74,6 +74,7 @@ def reg_new_res(filepath):
     conn.commit()
     sh.copy(filepath, os.path.join(os.path.abspath('.'), 'Resources'))
     return
+
 
 def print_msg(msg):
     print = sg.Print

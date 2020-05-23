@@ -24,4 +24,5 @@ def main(session):
 
         if event == 'Register':
             p.reg_new_res(values[1])
+            sg.popup_ok('New resource registered!', auto_close=True)
     pass

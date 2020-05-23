@@ -5,7 +5,7 @@ conn = sqlite3.connect(os.path.join('memorand', 'Resources', 'DB','postdb.db'))
 
 def get_phrase():
     cursor = conn.cursor()
-    cursor.execute('select phrase from post_phrases order by random() --where pal = false order by random();')
+    cursor.execute('select phrase from post_phrases order by random();')
     phrase = cursor.fetchone()[0]
     phrase = phrase.strip()
     print(phrase)

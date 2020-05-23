@@ -57,7 +57,7 @@ def get_group_by_link(session, sh_name):
     resp = session.method("groups.getById", {
         'group_id': sh_name
     })
-    return -1 * resp['response']['id']
+    return -1 * resp[0]['id']
 
 
 def vk_auth(email=None, pswd=None):
@@ -71,7 +71,7 @@ def vk_auth(email=None, pswd=None):
 
     try:
         vk_session.auth()
-        sg.popup_ok('Authorization succesful!')
+        sg.popup_ok('Authorization succesful!', auto_close=True)
         return vk_session
     except vk_api.AuthError as error_msg:
         sg.popup_error(error_msg)

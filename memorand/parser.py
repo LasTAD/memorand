@@ -72,6 +72,7 @@ def reg_new_res(filepath):
     hk = hl.md5(Image.open(filepath).tobytes()).hexdigest()
     cur.execute('insert into img_src (img_path, hk)  values (?, ?)', (filename, hk))
     conn.commit()
+    print(os.path.join(os.path.abspath('.'), 'Resources'))
     sh.copy(filepath, os.path.join(os.path.abspath('.'), 'Resources'))
     return
 

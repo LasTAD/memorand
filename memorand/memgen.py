@@ -90,7 +90,7 @@ def main():
             window.UnHide()
 
         if event == 'About...':
-            sg.popup('About Memorand', 'Version 1.5', 'Cyber-era is already here!\n       Author: Kobyzev N.')
+            sg.popup('About Memorand', 'Version 1.5', 'Cyber-era is already here!\nAuthor: Kobyzev N. & Nikolaeva V.')
     pass
 
 
@@ -136,6 +136,7 @@ def authorization(window):
             break
         if events is None or events == 'Exit':
             win.close()
+            session = 0
             window.UnHide()
             break
     return session
